@@ -56,7 +56,7 @@
 
 
 // - (NSString*) specialCharsAsString;
-- (void) setSpecialCharsAsString: (NSString*) specialString;
+// - (void) setSpecialCharsAsString: (NSString*) specialString;
 
 
 -(NSString*) createPassword;

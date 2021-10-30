@@ -8,12 +8,18 @@
 import Foundation
 
 extension PasswordHero {
+
+    @objc
+    func setSpecialCharsAsString(_ specialString: String?) {
+        if specialString?.isEmpty ?? true {
+            self.specialChars = nil
+        } else {
+            self.specialChars = Array(specialString!).map {String($0)}
+        }
+    }
+
     @objc
     func specialCharsAsString() -> String {
-        let specialString = NSMutableString()
-        for c in self.specialChars {
-            specialString.append(c)
-        }
-        return specialString as String
+        return self.specialChars.joined()
     }
 }

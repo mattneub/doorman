@@ -326,16 +326,5 @@
     }
 }
 
-- (void) setSpecialCharsAsString: (NSString*) specialString {
-    NSMutableArray* specialArray = [NSMutableArray arrayWithCapacity:32];
-    if (specialString == nil || [specialString length] == 0) {
-        [self setSpecialChars:nil];
-    } else {
-        for (NSInteger i = 0; i < [specialString length]; i++) {
-            [specialArray addObject:[specialString substringWithRange:NSMakeRange(i, 1)]];
-        }
-        [self setSpecialChars:specialArray];
-    }
-}
 
 @end
