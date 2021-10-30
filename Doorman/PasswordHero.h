@@ -26,9 +26,6 @@
     NSInteger lastSyllableLength;
 
 	
-	NSArray* lowerCaseLetters;
-	NSArray* upperCaseLetters;
-	NSArray* numbers;
 	NSArray* allSpecialChars;
 	NSDictionary* leetDict;
 	NSDictionary* upperForLowerCaseDict;
@@ -52,13 +49,6 @@
 @property (assign) BOOL isSpeakable;
 @property (strong, nonatomic) NSArray<NSString*>* specialChars;
 
-
-
-
-// - (NSString*) specialCharsAsString;
-// - (void) setSpecialCharsAsString: (NSString*) specialString;
-
-
 -(NSString*) createPassword;
 -(NSString*) createPasswordCandidate;
 
@@ -67,6 +57,13 @@
 
 -(NSString*) createSyllable;
 -(NSString*) applyLeetSpeak:(NSString*) aString;
-- (BOOL) checkPasswordBeforeOut:(NSString*) password;
+// - (BOOL) checkPasswordBeforeOut:(NSString*) password;
+
+@end
+
+@interface PasswordHero ()
+@property (nonatomic, strong) NSArray<NSString*>* lowerCaseLetters;
+@property (nonatomic, strong) NSArray<NSString*>* upperCaseLetters;
+@property (nonatomic, strong) NSArray<NSString*>* numbers;
 
 @end

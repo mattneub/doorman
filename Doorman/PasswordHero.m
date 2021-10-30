@@ -14,6 +14,7 @@
 @property (nonatomic, strong) DMRandom* randomNumberGenerator;
 @end
 
+
 @implementation PasswordHero
 
 @synthesize passwordLength, hasUpperCase, hasLowerCase, hasNumbers, hasSpecialChars, isSpeakable, specialChars;
@@ -25,16 +26,16 @@
         passwordsPerSecond = 2.0 * pow(10, 9);
         NSLog(@"passwordManager > init > pps: %f", passwordsPerSecond);
         
-        lowerCaseLetters = @[@"a", @"b",@"c", @"d",
+        self.lowerCaseLetters = @[@"a", @"b",@"c", @"d",
                              @"e", @"f",@"g", @"h",@"i", @"j",@"k", @"l",
                              @"m", @"n",@"o", @"p",@"q", @"r",@"s", @"t",
                              @"u", @"v",@"w", @"x",@"y", @"z"];
-        upperCaseLetters = @[@"A", @"B",@"C", @"D",
+        self.upperCaseLetters = @[@"A", @"B",@"C", @"D",
                              @"E", @"F",@"G", @"H",@"I", @"J",@"K", @"L",@"M", @"N",
                              @"O", @"P",@"Q", @"R",@"S", @"T",@"U", @"V",
                              @"W", @"X", @"Y",@"Z"];
-        upperForLowerCaseDict = [NSDictionary dictionaryWithObjects:upperCaseLetters forKeys:lowerCaseLetters];
-        numbers = @[@"1", @"2",@"3", @"4",@"5", @"6",
+        upperForLowerCaseDict = [NSDictionary dictionaryWithObjects:self.upperCaseLetters forKeys:self.lowerCaseLetters];
+        self.numbers = @[@"1", @"2",@"3", @"4",@"5", @"6",
 					@"7", @"8",@"9", @"0"];
 		allSpecialChars = @[@"!", @"§", @"$", @"%",
                             @"&", @"/", @"(", @")", @"[", @"]", @"{", @"}",@"<", @">",
@@ -124,16 +125,16 @@
 -(NSString*) createPasswordCandidate{
     NSMutableArray* characters = [NSMutableArray arrayWithCapacity:80];
     if (hasLowerCase){
-        [characters addObjectsFromArray:lowerCaseLetters];
+        [characters addObjectsFromArray:self.lowerCaseLetters];
     }
     if (hasNumbers){
-        [characters addObjectsFromArray:numbers];
+        [characters addObjectsFromArray:self.numbers];
     }            
     if (hasSpecialChars){
         [characters addObjectsFromArray:specialChars];   
     }            
     if (hasUpperCase){
-        [characters addObjectsFromArray:upperCaseLetters];   
+        [characters addObjectsFromArray:self.upperCaseLetters];
     }
     NSMutableString* password = [NSMutableString stringWithString:@""];
     
@@ -158,7 +159,7 @@
     //am anfang kann auch sonderzeichen oder zahl stehen
     CGFloat numberOrSpecialProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
     if (hasNumbers && (numberOrSpecialProbability > 0.6)) {
-        NSString* randomNumber = numbers[[self.randomNumberGenerator randomIntBetween:0 and:[numbers count]-1]];
+        NSString* randomNumber = self.numbers[[self.randomNumberGenerator randomIntBetween:0 and:[self.numbers count]-1]];
         [speakablePassword appendString: randomNumber];
     } else if (hasSpecialChars && (numberOrSpecialProbability < 0.3)) {
         NSString* randomSpecial = specialChars[[self.randomNumberGenerator randomIntBetween:0 and:[specialChars count]-1]];
@@ -171,7 +172,7 @@
         
         CGFloat numberOrSpecialProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
         if (hasNumbers && (numberOrSpecialProbability > 0.6)) {
-            NSString* randomNumber = numbers[[self.randomNumberGenerator randomIntBetween:0 and:[numbers count]-1]];
+            NSString* randomNumber = self.numbers[[self.randomNumberGenerator randomIntBetween:0 and:[self.numbers count]-1]];
             [speakablePassword appendString: randomNumber];
         } else if (hasSpecialChars && (numberOrSpecialProbability < 0.3)) {
             NSString* randomSpecial = specialChars[[self.randomNumberGenerator randomIntBetween:0 and:[specialChars count]-1]];
@@ -249,47 +250,6 @@
     return [NSString stringWithString:newPassword];
 }
 
-
-/*!
- @abstract prüft ob das passwort die geforderten optionen erfüllt.
- @discussion jed der gesetzten optionen muss im passwort mit midestens einem zeichen erfüllt sein.
- @updated 2009-08-08 gaby & anna
- */
-- (BOOL) checkPasswordBeforeOut:(NSString*) password{
-    BOOL existsLetter = !hasLowerCase;
-    BOOL existsUpperLetter = !hasUpperCase;
-    BOOL existsNumber = !hasNumbers;
-    BOOL existsSpecialChar = !hasSpecialChars;
-    
-    for (NSInteger i = 0; i< passwordLength; i++){
-        NSString* singleChar = [password substringWithRange:NSMakeRange(i, 1)];
-        if (NO == existsLetter && [lowerCaseLetters containsObject:singleChar]){
-            existsLetter = YES;
-            continue;
-        }
-        if (NO == existsUpperLetter && [upperCaseLetters containsObject:singleChar]){
-            existsUpperLetter = YES;
-            continue;
-        }
-        if (NO == existsNumber && [numbers containsObject:singleChar]){
-            existsNumber = YES;
-            continue;
-        }
-        if (NO == existsSpecialChar && [specialChars containsObject:singleChar]){
-            existsSpecialChar = YES;
-            continue;
-        }
-    }
-	
-    BOOL isOK = existsLetter && existsUpperLetter && existsNumber && existsSpecialChar;
-    
-    if (NO == isOK) {
-        NSLog(@"PH > check > is not ok %@", password);
-    }
-    return isOK;
-}
-
-
 -(NSInteger) passwordStrength {
     CGFloat possibleSymbols = 0;
     if (hasNumbers) {
@@ -299,10 +259,10 @@
         possibleSymbols += [specialChars count];
     }
     if (hasUpperCase) {
-        possibleSymbols += [upperCaseLetters count];
+        possibleSymbols += [self.upperCaseLetters count];
     }
     if (hasLowerCase) {
-        possibleSymbols += [lowerCaseLetters count];
+        possibleSymbols += [self.lowerCaseLetters count];
     }
     
     CGFloat possibleCombinations = pow(possibleSymbols, (CGFloat)passwordLength);
