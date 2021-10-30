@@ -111,7 +111,7 @@
         [passwordTextField setStringValue:[passwordHero createPassword]];
     }
     
-	NSInteger strength  = [passwordHero passwordStrength];
+	NSInteger strength  = [passwordHero calculatePasswordStrength];
     [passwordStrengthLevelIndicator setIntegerValue:strength];
     
     if (strength < 4) {

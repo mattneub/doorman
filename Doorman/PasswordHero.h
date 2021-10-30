@@ -12,8 +12,7 @@
 
 @interface PasswordHero : NSObject {
 
-    CGFloat passwordsPerSecond;
-    
+
 	NSInteger passwordLength;
 	BOOL hasLowerCase;
 	BOOL hasNumbers;
@@ -38,8 +37,6 @@
     
 	
 }
--(NSInteger) passwordStrength;
-
 
 @property (assign) NSInteger passwordLength;
 @property (assign) BOOL hasLowerCase;
@@ -47,7 +44,11 @@
 @property (assign) BOOL hasSpecialChars;
 @property (assign) BOOL hasUpperCase;
 @property (assign) BOOL isSpeakable;
+@property (assign) CGFloat passwordsPerSecond;
 @property (strong, nonatomic) NSArray<NSString*>* specialChars;
+@property (nonatomic, strong) NSArray<NSString*>* lowerCaseLetters;
+@property (nonatomic, strong) NSArray<NSString*>* upperCaseLetters;
+@property (nonatomic, strong) NSArray<NSString*>* numbers;
 
 -(NSString*) createPassword;
 -(NSString*) createPasswordCandidate;
@@ -57,13 +58,6 @@
 
 -(NSString*) createSyllable;
 -(NSString*) applyLeetSpeak:(NSString*) aString;
-// - (BOOL) checkPasswordBeforeOut:(NSString*) password;
 
 @end
 
-@interface PasswordHero ()
-@property (nonatomic, strong) NSArray<NSString*>* lowerCaseLetters;
-@property (nonatomic, strong) NSArray<NSString*>* upperCaseLetters;
-@property (nonatomic, strong) NSArray<NSString*>* numbers;
-
-@end

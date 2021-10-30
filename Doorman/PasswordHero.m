@@ -23,8 +23,8 @@
 	self = [super init];
     if (self) {
         
-        passwordsPerSecond = 2.0 * pow(10, 9);
-        NSLog(@"passwordManager > init > pps: %f", passwordsPerSecond);
+        self.passwordsPerSecond = 2.0 * pow(10, 9);
+        NSLog(@"passwordManager > init > pps: %f", self.passwordsPerSecond);
         
         self.lowerCaseLetters = @[@"a", @"b",@"c", @"d",
                              @"e", @"f",@"g", @"h",@"i", @"j",@"k", @"l",
@@ -250,33 +250,6 @@
     return [NSString stringWithString:newPassword];
 }
 
--(NSInteger) passwordStrength {
-    CGFloat possibleSymbols = 0;
-    if (hasNumbers) {
-        possibleSymbols += 10;
-    }
-    if (hasSpecialChars) {
-        possibleSymbols += [specialChars count];
-    }
-    if (hasUpperCase) {
-        possibleSymbols += [self.upperCaseLetters count];
-    }
-    if (hasLowerCase) {
-        possibleSymbols += [self.lowerCaseLetters count];
-    }
-    
-    CGFloat possibleCombinations = pow(possibleSymbols, (CGFloat)passwordLength);
-    CGFloat secondsToCrack = (possibleCombinations / passwordsPerSecond)/(2);
-    NSInteger passwordStrength = (NSInteger)log10(secondsToCrack);
-    
-    if (isSpeakable && passwordStrength > 0) {
-        passwordStrength -= 2;
-    }
-    
-    NSLog(@"Time to brute force: %.1f days @ 10^%ld passwords/sec; possible combinations 10^%ld; strength %ld", secondsToCrack/(3600*24), (NSInteger)(log10(passwordsPerSecond)), (NSInteger)log10(possibleCombinations), passwordStrength);
-    
-    return passwordStrength;
-}
 
 -(void) setSpecialChars:(NSArray *)theCharsArray {
     if (theCharsArray == nil || [theCharsArray count] == 0) {
