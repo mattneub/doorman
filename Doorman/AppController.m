@@ -6,7 +6,7 @@
 
 #import "AppController.h"
 #import "PasswordHero.h"
-
+#import "Doorman-Swift.h"
 
 @implementation AppController
 

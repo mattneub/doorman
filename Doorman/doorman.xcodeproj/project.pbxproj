@@ -18,8 +18,9 @@
 		95FFCB6E15D56FCB0019E369 /* favorites_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 95FFCB6A15D56FCB0019E369 /* favorites_overlay.png */; };
 		95FFCB6F15D56FCB0019E369 /* favorites_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 95FFCB6C15D56FCB0019E369 /* favorites_overlay@2x.png */; };
 		95FFCB7F15D576830019E369 /* app_icon.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 95FFCB7E15D576830019E369 /* app_icon.iconset */; };
+		9E54FEB1272D982F00DE2A7C /* RandomBetween.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E54FEB0272D982F00DE2A7C /* RandomBetween.swift */; };
+		9E54FEB3272D9AC400DE2A7C /* PasswordHero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E54FEB2272D9AC400DE2A7C /* PasswordHero.swift */; };
 		A792C8E20FF23C480062F525 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = A792C8E10FF23C480062F525 /* AppController.m */; };
-		A792C8EC0FF241C00062F525 /* DMRandom.m in Sources */ = {isa = PBXBuildFile; fileRef = A792C8EB0FF241BF0062F525 /* DMRandom.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,9 @@
 		95FFCB7A15D570100019E369 /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = de.lproj/favorites_overlay.png; sourceTree = "<group>"; };
 		95FFCB7B15D570100019E369 /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = "de.lproj/favorites_overlay@2x.png"; sourceTree = "<group>"; };
 		95FFCB7E15D576830019E369 /* app_icon.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = app_icon.iconset; sourceTree = "<group>"; };
+		9E54FEAF272D982F00DE2A7C /* Doorman-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Doorman-Bridging-Header.h"; sourceTree = "<group>"; };
+		9E54FEB0272D982F00DE2A7C /* RandomBetween.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomBetween.swift; sourceTree = "<group>"; };
+		9E54FEB2272D9AC400DE2A7C /* PasswordHero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordHero.swift; sourceTree = "<group>"; };
 		A792C8E00FF23C480062F525 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		A792C8E10FF23C480062F525 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
 		A792C8EA0FF241BF0062F525 /* DMRandom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMRandom.h; sourceTree = "<group>"; };
@@ -77,6 +81,9 @@
 				95D8742811D2509200F2B6A0 /* PasswordHero.m */,
 				A792C8EA0FF241BF0062F525 /* DMRandom.h */,
 				A792C8EB0FF241BF0062F525 /* DMRandom.m */,
+				9E54FEB0272D982F00DE2A7C /* RandomBetween.swift */,
+				9E54FEB2272D9AC400DE2A7C /* PasswordHero.swift */,
+				9E54FEAF272D982F00DE2A7C /* Doorman-Bridging-Header.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -182,6 +189,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0440;
+				TargetAttributes = {
+					8D1107260486CEB800E47090 = {
+						LastSwiftMigration = 1300;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "doorman" */;
 			compatibilityVersion = "Xcode 13.0";
@@ -228,9 +240,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
+				9E54FEB3272D9AC400DE2A7C /* PasswordHero.swift in Sources */,
 				A792C8E20FF23C480062F525 /* AppController.m in Sources */,
-				A792C8EC0FF241C00062F525 /* DMRandom.m in Sources */,
 				95D8742911D2509200F2B6A0 /* PasswordHero.m in Sources */,
+				9E54FEB1272D982F00DE2A7C /* RandomBetween.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -293,6 +306,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Doorman.entitlements;
 				CODE_SIGN_IDENTITY = "-";
@@ -306,11 +320,19 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrFridge.Doorman;
 				PRODUCT_NAME = Doorman;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Doorman-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -319,6 +341,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_ENTITLEMENTS = Doorman.entitlements;
 				CODE_SIGN_IDENTITY = "-";
@@ -330,11 +353,18 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				LLVM_LTO = YES;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.mrFridge.Doorman;
 				PRODUCT_NAME = Doorman;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Doorman-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

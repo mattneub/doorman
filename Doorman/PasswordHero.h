@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class DMRandom;
+// #import "Doorman-Swift.h"
+// @class DMRandom;
 
 @interface PasswordHero : NSObject {
 
@@ -36,7 +37,7 @@
     NSArray* vowels;
     NSArray* lastConsonants;    
 	NSArray* specialChars;
-    DMRandom* random;
+    // DMRandom* random;
     
 	
 }
@@ -49,12 +50,12 @@
 @property (assign) BOOL hasSpecialChars;
 @property (assign) BOOL hasUpperCase;
 @property (assign) BOOL isSpeakable;
-@property (strong, nonatomic) NSArray* specialChars;
+@property (strong, nonatomic) NSArray<NSString*>* specialChars;
 
 
 
 
-- (NSString*) specialCharsAsString;
+// - (NSString*) specialCharsAsString;
 - (void) setSpecialCharsAsString: (NSString*) specialString;
 
 

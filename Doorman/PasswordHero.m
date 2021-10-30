@@ -7,8 +7,12 @@
 //
 
 #import "PasswordHero.h"
-#import "DMRandom.h"
+#import "Doorman-Swift.h"
+// #import "DMRandom.h"
 
+@interface PasswordHero ()
+@property (nonatomic, strong) DMRandom* randomNumberGenerator;
+@end
 
 @implementation PasswordHero
 
@@ -82,7 +86,7 @@
         
         
         
-        random = [[DMRandom alloc] init];
+        self.randomNumberGenerator = [[DMRandom alloc] init];
     }
 	return self;
 }
@@ -134,7 +138,7 @@
     NSMutableString* password = [NSMutableString stringWithString:@""];
     
 	for (NSInteger i = 0; i < passwordLength; i++) {
-		NSInteger r = [random randomIntBetween:0 and:[characters count]-1];
+		NSInteger r = [self.randomNumberGenerator randomIntBetween:0 and:[characters count]-1];
 		[password appendString:characters[r]];
 	}	
     
@@ -152,12 +156,12 @@
     NSMutableString* speakablePassword = [NSMutableString stringWithCapacity:passwordLength];
     
     //am anfang kann auch sonderzeichen oder zahl stehen
-    CGFloat numberOrSpecialProbability = [random randomFloatBetween:0 and:1];
+    CGFloat numberOrSpecialProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
     if (hasNumbers && (numberOrSpecialProbability > 0.6)) {
-        NSString* randomNumber = numbers[[random randomIntBetween:0 and:[numbers count]-1]];
+        NSString* randomNumber = numbers[[self.randomNumberGenerator randomIntBetween:0 and:[numbers count]-1]];
         [speakablePassword appendString: randomNumber];
     } else if (hasSpecialChars && (numberOrSpecialProbability < 0.3)) {
-        NSString* randomSpecial = specialChars[[random randomIntBetween:0 and:[specialChars count]-1]];
+        NSString* randomSpecial = specialChars[[self.randomNumberGenerator randomIntBetween:0 and:[specialChars count]-1]];
         [speakablePassword appendString: randomSpecial];
     }
     
@@ -165,12 +169,12 @@
     while ([speakablePassword length] < passwordLength) {
         [speakablePassword appendString:[self createSyllable]];
         
-        CGFloat numberOrSpecialProbability = [random randomFloatBetween:0 and:1];
+        CGFloat numberOrSpecialProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
         if (hasNumbers && (numberOrSpecialProbability > 0.6)) {
-            NSString* randomNumber = numbers[[random randomIntBetween:0 and:[numbers count]-1]];
+            NSString* randomNumber = numbers[[self.randomNumberGenerator randomIntBetween:0 and:[numbers count]-1]];
             [speakablePassword appendString: randomNumber];
         } else if (hasSpecialChars && (numberOrSpecialProbability < 0.3)) {
-            NSString* randomSpecial = specialChars[[random randomIntBetween:0 and:[specialChars count]-1]];
+            NSString* randomSpecial = specialChars[[self.randomNumberGenerator randomIntBetween:0 and:[specialChars count]-1]];
             [speakablePassword appendString: randomSpecial];
         }
     }
@@ -186,7 +190,7 @@
             NSString* charAtI = [speakablePassword substringWithRange:NSMakeRange(i, 1)];
             NSString* caseReplacement = upperForLowerCaseDict[charAtI];
             if (caseReplacement) {
-                CGFloat replaceProbability = [random randomFloatBetween:0 and:1];
+                CGFloat replaceProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
                 if (replaceProbability > 0.8) {
                     [speakablePassword replaceCharactersInRange:NSMakeRange(i, 1) withString: caseReplacement];
                 }
@@ -205,21 +209,21 @@
  @updated 2009-08-08 gaby & anna
  */
 -(NSString*) createSyllable{
-    CGFloat firstConsonantProbability = [random randomFloatBetween:0 and:1];
-    CGFloat lastConsonantProbability = [random randomFloatBetween:0 and:1];
+    CGFloat firstConsonantProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
+    CGFloat lastConsonantProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
     NSMutableString* syllable = [NSMutableString stringWithCapacity:7];
     if (firstConsonantProbability < 0.75 || !lastSyllableHasLastConsonant) {
         lastSyllableHasLastConsonant = YES;
-        NSInteger randomFirstConsonant = [random randomIntBetween:0 and:[firstConsonants count]-1];
+        NSInteger randomFirstConsonant = [self.randomNumberGenerator randomIntBetween:0 and:[firstConsonants count]-1];
         [syllable appendString:firstConsonants[randomFirstConsonant]];
     } else {
         lastSyllableHasFirstConsonant = NO;
     }
-    NSInteger randomVowel = [random randomIntBetween:0 and:[vowels count]-1];
+    NSInteger randomVowel = [self.randomNumberGenerator randomIntBetween:0 and:[vowels count]-1];
     [syllable appendString:vowels[randomVowel]];
     if (lastConsonantProbability < 0.5) {
         lastSyllableHasLastConsonant = YES;
-        NSInteger randomLastConsonant = [random randomIntBetween:0 and:[lastConsonants count]-1];
+        NSInteger randomLastConsonant = [self.randomNumberGenerator randomIntBetween:0 and:[lastConsonants count]-1];
         [syllable appendString:lastConsonants[randomLastConsonant]];
     } else {
         lastSyllableHasLastConsonant = NO;
@@ -333,17 +337,5 @@
         [self setSpecialChars:specialArray];
     }
 }
-
-- (NSString*) specialCharsAsString {
-    NSMutableString* specialString = [NSMutableString stringWithCapacity:32];
-    for (NSString* c in self.specialChars) {
-        [specialString appendString:c];
-    }
-    return specialString;
-}
-
-
-
-
 
 @end
