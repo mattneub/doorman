@@ -7,7 +7,8 @@
 
 import AppKit
 
-@objc class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
+@main
+class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
     @IBOutlet var doormanWindow: NSWindow!
     @IBOutlet weak var hasLowerCaseCheck : NSButton!
     @IBOutlet weak var hasNumbersCheck : NSButton!
@@ -62,6 +63,11 @@ import AppKit
         }
     }
     @IBAction func optionCheckBoxClicked(_ sender: AnyObject) {
+        // me: it has to be absolutely impossible uncheck both lower and upper case letters
+        if self.hasUpperCaseCheck.state == .off && self.hasLowerCaseCheck.state == .off {
+            self.hasLowerCaseCheck.state = .on
+        }
+
         self.passwordHero.hasNumbers = self.hasNumbersCheck.state == .on
         self.passwordHero.hasSpecialChars = self.hasSpecialCharsCheck.state == .on
         self.passwordHero.hasUpperCase = self.hasUpperCaseCheck.state == .on
@@ -120,13 +126,14 @@ import AppKit
         pb.setString(password, forType: .string)
     }
 
-    let passwordHero = PasswordHero()
+    var passwordHero : PasswordHero!
 
     override func awakeFromNib() {
         self.doormanWindow.center()
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
+        self.passwordHero = PasswordHero()
         let defaults = UserDefaults.standard
         var isFirstStart = !defaults.bool(forKey: "isNotFirstStart")
         if isFirstStart {
