@@ -308,7 +308,7 @@ DQ
                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="536">
                                     <rect key="frame" x="360" y="45" width="72" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                    <buttonCell key="cell" type="push" title="Copy" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="537">
+                                    <buttonCell key="cell" type="push" title="Copy" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="537">
                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
@@ -346,8 +346,6 @@ DQ
         </window>
         <customObject id="409" customClass="AppController" customModule="Doorman" customModuleProvider="target">
             <connections>
-                <outlet property="copyButton" destination="536" id="554"/>
-                <outlet property="doormanMenu" destination="57" id="558"/>
                 <outlet property="doormanWindow" destination="371" id="452"/>
                 <outlet property="hasLowerCaseCheck" destination="379" id="548"/>
                 <outlet property="hasNumbersCheck" destination="381" id="415"/>

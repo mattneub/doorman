@@ -7,32 +7,40 @@
 
 import AppKit
 
+enum Default {
+    static let specialChars = "specialCharacters"
+    static let hasLowerCase = "hasLowerCase"
+    static let hasNumbers = "hasNumbers"
+    static let hasSpecialChars = "hasSpecialChars"
+    static let hasUpperCase = "hasUpperCase"
+    static let isSpeakable = "isSpeakable"
+    static let passwordLength = "passwordLength"
+}
+
 @main
-class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
-    @IBOutlet var doormanWindow: NSWindow!
-    @IBOutlet weak var hasLowerCaseCheck : NSButton!
-    @IBOutlet weak var hasNumbersCheck : NSButton!
-    @IBOutlet weak var hasSpecialCharsCheck : NSButton!
-    @IBOutlet weak var hasUpperCaseCheck : NSButton!
-    @IBOutlet weak var isSpeakableCheck : NSButton!
-    @IBOutlet weak var favoriteButton : NSButton!
+final class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
-    @IBOutlet weak var copyButton : NSButton!
+    private var passwordHero = PasswordHero()
 
-    @IBOutlet weak var passwordLengthTextField : NSTextField!
-    @IBOutlet weak var specialCharsTextField : NSTextField!
-    @IBOutlet weak var passwordTextField : NSTextField!
-    @IBOutlet weak var strengthDescription : NSTextField!
+    @IBOutlet private var doormanWindow: NSWindow!
+    @IBOutlet private weak var hasLowerCaseCheck : NSButton!
+    @IBOutlet private weak var hasNumbersCheck : NSButton!
+    @IBOutlet private weak var hasSpecialCharsCheck : NSButton!
+    @IBOutlet private weak var hasUpperCaseCheck : NSButton!
+    @IBOutlet private weak var isSpeakableCheck : NSButton!
 
-    @IBOutlet weak var passwordLengthStepper : NSStepper!
+    @IBOutlet private weak var copyButton : NSButton!
 
-    @IBOutlet weak var passwordStrengthLevelIndicator : NSLevelIndicator!
+    @IBOutlet private weak var passwordLengthTextField : NSTextField!
+    @IBOutlet private weak var specialCharsTextField : NSTextField!
+    @IBOutlet private weak var passwordTextField : NSTextField!
+    @IBOutlet private weak var strengthDescription : NSTextField!
 
-    @IBOutlet weak var doormanMenu : NSMenu!
+    @IBOutlet private weak var passwordLengthStepper : NSStepper!
 
-    @IBAction func createPasswordClicked(_ sender: AnyObject) {
-        self.copyButton.isEnabled = true
+    @IBOutlet private weak var passwordStrengthLevelIndicator : NSLevelIndicator!
 
+    @IBAction private func createPasswordClicked(_ sender: AnyObject) {
         let specials = self.specialCharsTextField.stringValue
         self.passwordHero.setSpecialCharsAsString(specials)
         if specials.count == 0 {
@@ -40,8 +48,7 @@ class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
             self.hasSpecialCharsCheck.state = .off
             self.optionCheckBoxClicked(self)
         }
-
-        UserDefaults.standard.set(self.passwordHero.specialChars, forKey:"specialCharacters")
+        UserDefaults.standard.set(self.passwordHero.specialChars, forKey:Default.specialChars)
 
         if self.passwordHero.isSpeakable {
             self.passwordTextField.stringValue = self.passwordHero.createSpeakablePassword()
@@ -51,23 +58,21 @@ class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         let strength = self.passwordHero.calculatePasswordStrength()
         self.passwordStrengthLevelIndicator.integerValue = strength
-
-        if (strength < 4) {
-            self.strengthDescription.stringValue = NSLocalizedString("Unsecure", comment:"Unsecure")
-        } else if (strength < 6) {
-            self.strengthDescription.stringValue = NSLocalizedString("OK for web accounts", comment:"OK for web accounts")
-        }  else  if (strength < 9) {
-            self.strengthDescription.stringValue = NSLocalizedString("Safe for private data", comment:"Safe for private data")
-        }  else {
-            self.strengthDescription.stringValue = NSLocalizedString("Safe for confidential data", comment:"Safe for confidential data")
-        }
+        self.strengthDescription.stringValue = {
+            switch strength {
+            case Int.min..<4:
+                return NSLocalizedString("Unsecure", comment:"Unsecure")
+            case 4..<6:
+                return NSLocalizedString("OK for web accounts", comment:"OK for web accounts")
+            case 6..<9:
+                return NSLocalizedString("Save for private data", comment:"Save for private data")
+            default:
+                return NSLocalizedString("Save for confidential data", comment:"Save for confidential data")
+            }
+        }()
     }
-    @IBAction func optionCheckBoxClicked(_ sender: AnyObject) {
-        // me: it has to be absolutely impossible uncheck both lower and upper case letters
-        if self.hasUpperCaseCheck.state == .off && self.hasLowerCaseCheck.state == .off {
-            self.hasLowerCaseCheck.state = .on
-        }
 
+    @IBAction private func optionCheckBoxClicked(_ sender: AnyObject) {
         self.passwordHero.hasNumbers = self.hasNumbersCheck.state == .on
         self.passwordHero.hasSpecialChars = self.hasSpecialCharsCheck.state == .on
         self.passwordHero.hasUpperCase = self.hasUpperCaseCheck.state == .on
@@ -85,74 +90,71 @@ class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
         if self.passwordHero.hasSpecialChars {numberOfCheckedOptions += 1}
         if self.passwordHero.hasNumbers {numberOfCheckedOptions += 1}
 
+        // enablement: prevent unchecking all
         if numberOfCheckedOptions < 2 {
-            self.hasLowerCaseCheck.isEnabled = self.passwordHero.hasLowerCase
-            self.hasUpperCaseCheck.isEnabled = self.passwordHero.hasUpperCase
-            self.hasSpecialCharsCheck.isEnabled = self.passwordHero.hasSpecialChars
-            self.hasNumbersCheck.isEnabled = self.passwordHero.hasNumbers
+            self.hasLowerCaseCheck.isEnabled = !self.passwordHero.hasLowerCase
+            self.hasUpperCaseCheck.isEnabled = !self.passwordHero.hasUpperCase
+            self.hasSpecialCharsCheck.isEnabled = !self.passwordHero.hasSpecialChars
+            self.hasNumbersCheck.isEnabled = !self.passwordHero.hasNumbers
         } else {
             self.hasLowerCaseCheck.isEnabled = true
             self.hasUpperCaseCheck.isEnabled = true
-            if self.passwordHero.isSpeakable {
-                self.hasLowerCaseCheck.isEnabled = self.passwordHero.hasUpperCase
-                self.hasUpperCaseCheck.isEnabled = self.passwordHero.hasLowerCase
-            }
+            // me: either lower or upper case letter must always be checked, so disable the one if the other is unchecked
+            self.hasLowerCaseCheck.isEnabled = self.passwordHero.hasUpperCase
+            self.hasUpperCaseCheck.isEnabled = self.passwordHero.hasLowerCase
             self.hasNumbersCheck.isEnabled = true
             self.hasSpecialCharsCheck.isEnabled = true
         }
-
         self.specialCharsTextField.isEnabled = self.passwordHero.hasSpecialChars
 
-        //in preferences speichern
         let defaults = UserDefaults.standard
-        defaults.set(self.passwordHero.hasLowerCase, forKey:"hasLowerCase")
-        defaults.set(self.passwordHero.hasNumbers, forKey:"hasNumbers")
-        defaults.set(self.passwordHero.hasSpecialChars, forKey:"hasSpecialChars")
-        defaults.set(self.passwordHero.hasUpperCase, forKey:"hasUpperCase")
-        defaults.set(self.passwordHero.isSpeakable, forKey:"isSpeakable")
-
+        defaults.set(self.passwordHero.hasLowerCase, forKey:Default.hasLowerCase)
+        defaults.set(self.passwordHero.hasNumbers, forKey:Default.hasNumbers)
+        defaults.set(self.passwordHero.hasSpecialChars, forKey:Default.hasSpecialChars)
+        defaults.set(self.passwordHero.hasUpperCase, forKey:Default.hasUpperCase)
+        defaults.set(self.passwordHero.isSpeakable, forKey:Default.isSpeakable)
     }
-    @IBAction func checkForUpdate(_ sender: AnyObject) {}
-    @IBAction func setLength(_ sender: AnyObject) {
+    @IBAction private func setLength(_ sender: AnyObject) {
         self.passwordHero.passwordLength = self.passwordLengthStepper.integerValue
         self.passwordLengthTextField.integerValue = self.passwordHero.passwordLength
-        UserDefaults.standard.set(self.passwordHero.passwordLength, forKey:"passwordLength")
+        UserDefaults.standard.set(self.passwordHero.passwordLength, forKey:Default.passwordLength)
     }
-    @IBAction func addToFavorites(_ sender: AnyObject) {}
-    @IBAction func copyPasswordToClipboard(_ sender: AnyObject) {
+    @IBAction private func copyPasswordToClipboard(_ sender: AnyObject) {
         let password = passwordTextField.stringValue
         let pb = NSPasteboard.general
         pb.clearContents()
         pb.setString(password, forType: .string)
     }
 
-    var passwordHero : PasswordHero!
-
     override func awakeFromNib() {
         self.doormanWindow.center()
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
-        self.passwordHero = PasswordHero()
         let defaults = UserDefaults.standard
-        var isFirstStart = !defaults.bool(forKey: "isNotFirstStart")
-        if isFirstStart {
-            isFirstStart = false
-            defaults.set(!isFirstStart, forKey: "isNotFirstStart")
-        } else {
-            self.passwordHero.hasLowerCase = defaults.bool(forKey:"hasLowerCase")
-            self.passwordHero.hasNumbers = defaults.bool(forKey:"hasNumbers")
-            self.passwordHero.hasSpecialChars = defaults.bool(forKey:"hasSpecialChars")
-            self.passwordHero.hasUpperCase = defaults.bool(forKey:"hasUpperCase")
-            self.passwordHero.specialChars = defaults.array(forKey:"specialCharacters") as! [String]
-            self.passwordHero.isSpeakable = defaults.bool(forKey:"isSpeakable")
-        }
-        let passwordLength = defaults.integer(forKey:"passwordLength")
+        defaults.register(defaults: [
+            Default.hasLowerCase:true,
+            Default.hasNumbers:true,
+            Default.hasUpperCase:true,
+            Default.hasSpecialChars:true,
+            Default.specialChars:[String](),
+            Default.isSpeakable:false,
+            Default.passwordLength:12,
+        ])
+
+        self.passwordHero.hasLowerCase = defaults.bool(forKey:Default.hasLowerCase)
+        self.passwordHero.hasNumbers = defaults.bool(forKey:Default.hasNumbers)
+        self.passwordHero.hasSpecialChars = defaults.bool(forKey:Default.hasSpecialChars)
+        self.passwordHero.hasUpperCase = defaults.bool(forKey:Default.hasUpperCase)
+        self.passwordHero.specialChars = defaults.array(forKey:Default.specialChars) as! [String]
+        self.passwordHero.isSpeakable = defaults.bool(forKey:Default.isSpeakable)
+        let passwordLength = defaults.integer(forKey:Default.passwordLength)
         if passwordLength < 5 {
             self.passwordHero.passwordLength = 12
         } else {
             self.passwordHero.passwordLength = passwordLength
         }
+
         self.hasLowerCaseCheck.state = self.state(for:self.passwordHero.hasLowerCase)
         self.hasNumbersCheck.state = self.state(for:self.passwordHero.hasNumbers)
         self.hasSpecialCharsCheck.state =  self.state(for:self.passwordHero.hasSpecialChars)
@@ -167,13 +169,15 @@ class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
 
         self.optionCheckBoxClicked(self)
         self.createPasswordClicked(self)
+
+        self.doormanWindow.endEditing(for: nil)
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
 
-    func state(for b:Bool) -> NSButton.StateValue {
+    private func state(for b:Bool) -> NSButton.StateValue {
         if b {
             return .on
         }

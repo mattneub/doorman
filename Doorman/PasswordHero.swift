@@ -8,12 +8,12 @@
 import Foundation
 
 
-class PasswordHero : NSObject {
+final class PasswordHero : NSObject {
 
     var passwordLength: Int
     var hasLowerCase, hasNumbers, hasSpecialChars, hasUpperCase, isSpeakable : Bool
-    var lastSyllableHasFirstConsonant, lastSyllableHasLastConsonant : Bool
-    var passwordsPerSecond : CGFloat
+    var lastSyllableHasLastConsonant : Bool
+    let passwordsPerSecond : CGFloat
     var specialChars: [String] {
         didSet {
             if self.specialChars.count == 0 {
@@ -21,8 +21,8 @@ class PasswordHero : NSObject {
             }
         }
     }
-    var allSpecialChars, lowerCaseLetters, upperCaseLetters, numbers, firstConsonants, lastConsonants, vowels : [String]
-    var leetDict : [String:String] = {
+    let allSpecialChars, lowerCaseLetters, upperCaseLetters, numbers, firstConsonants, lastConsonants, vowels : [String]
+    let leetDict : [String:String] = {
         var d = [String:String]()
         let vals : [String] = ["3","0","!","4","5"]
         let keys : [String] = ["e","o","i","a","s"]
@@ -40,18 +40,20 @@ class PasswordHero : NSObject {
         self.passwordsPerSecond = 2.0 * pow(10, 9)
         print("passwordManager > init > pps:", self.passwordsPerSecond)
         self.lowerCaseLetters = ["a", "b","c", "d",
-                             "e", "f","g", "h","i", "j","k", "l",
-                             "m", "n","o", "p","q", "r","s", "t",
-                             "u", "v","w", "x","y", "z"]
-        self.upperCaseLetters = ["A", "B","C", "D",
-                             "E", "F","G", "H","I", "J","K", "L","M", "N",
-                             "O", "P","Q", "R","S", "T","U", "V",
-                             "W", "X", "Y","Z"]
-        self.numbers = ["1", "2","3", "4","5", "6",
-                    "7", "8","9", "0"]
+                                 "e", "f", "g", "h", "i", "j", "k", "l",
+                                 "m", "n", "o", "p", "q", "r", "s", "t",
+                                 "u", "v", "w", "x", "y", "z"]
+        self.upperCaseLetters = ["A", "B", "C", "D",
+                                 "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+                                 "O", "P", "Q", "R", "S", "T", "U", "V",
+                                 "W", "X", "Y", "Z"]
+        self.numbers = ["1", "2", "3", "4", "5", "6",
+                        "7", "8", "9", "0"]
         self.allSpecialChars = ["!", "§", "$", "%",
-                            "&", "/", "(", ")", "[", "]", "{", "}","<", ">",
-                            "?", "#", "",  "=", "-", "_", ".", ",", "+", "*", ":"]
+                                "&", "/", "(", ")", "[", "]", "{", "}","<", ">",
+                                "?", "#",
+                                //"",
+                                "=", "-", "_", ".", ",", "+", "*", ":"]
         self.specialChars = self.allSpecialChars
         self.passwordLength = 12
         self.hasLowerCase = true
@@ -60,35 +62,62 @@ class PasswordHero : NSObject {
         self.hasUpperCase = true
         self.isSpeakable = false
         self.lastSyllableHasLastConsonant = true
-        self.lastSyllableHasFirstConsonant = true
         self.lastSyllableLength = 0
         self.firstConsonants = ["b", "c", "d", "f",
-                            "g","h","j", "k", "l", "m", "n","o","p",
-                            "qu", "r","s", "t","v", "w", "x","y", "z","ch",
-                            "b", "c", "d", "f",
-                            "g","h","j", "k", "l", "m", "n","o","p",
-                            "qu", "r","s", "t","v", "w", "x", "z","ch",
-                            "sh", "sc","sp", "st","ph","squ", "bh","dh",
-                            "gh","kh","th", "wh","h", "bl","br",
-                            "cl", "cr","dr", "tl","tr", "gl", "gr","kl",
-                            "kr", "pr","sl", "tr","tl","vr","vl",
-                            "wr", "wl","xl", "chr","chl","shr", "shl","scl",
-                            "scr", "spl","spr", "str","stl","phl","phr",
-                            "thr", "thl"]
+                                "g", "h", "j", "k", "l", "m", "n", "o", "p",
+                                "qu", "r", "s", "t", "v", "w", "x", "y", "z", "ch",
+                                "b", "c", "d", "f",
+                                "g", "h", "j", "k", "l", "m", "n", "o", "p",
+                                "qu", "r", "s", "t", "v", "w", "x", "z", "ch",
+                                "sh", "sc", "sp", "st", "ph", "squ",
+                                // "bh","dh","gh","kh",
+                                "th", "wh","h", "bl", "br",
+                                "cl", "cr", "dr",
+                                //"tl",
+                                "tr", "gl", "gr", "kl",
+                                //"kr",
+                                "pr", "sl", "tr",
+                                // "tl","vr","vl",
+                                // "wr", "wl","xl", "chr","chl","shr", "shl","scl",
+                                "scr", "spl", "spr", "str",
+                                //"stl","phl","phr",
+                                "thr",
+                                //"thl",
+        ]
         self.lastConsonants = ["b", "c", "d", "f",
-                           "g","h", "k", "l", "m", "n","o","p",
-                           "qu", "r","s", "t","v", "w", "x", "z",
-                           "b", "c", "d", "f",
-                           "g","h","j", "k", "l", "m", "n","o","p",
-                           "qu", "r","s", "t","v", "w", "x", "z","ch",
-                           "ch","sh","th", "sp", "st",
-                           "ll","rr","mm", "nn", "tt", "ss", "gh","ck"]
+                               "g",
+                               // "h", "k",
+                               "l", "m", "n",
+                               //"o",
+                               "p",
+                               //"qu",
+                               "r", "s", "t","v",
+                               //"w", "x", "z",
+                               "b", "c", "d", "f",
+                               "g",
+                               //"h","j", "k",
+                               "l", "m", "n",
+                               //"o",
+                               "p",
+                               //"qu",
+                               "r", "s", "t", "v",
+                               //"w", "x", "z","ch",
+                               "ch","sh","th",
+                               //"sp",
+                               "st",
+                               "ll",
+                               //"rr",
+                               //"mm", "nn", "tt", "ss", "gh",
+                               "ck"]
         self.vowels = ["a", "e", "i", "o", "u",
-                   "a", "e", "i", "o", "u", "y",
-                   "ay", "uy", "oy", "ei", "ie", "au", "ou","ai", "aa", "ee", "oo",
-                   "eu","eo","ui","uo","a", "e", "i", "o", "u"]
-
-
+                       "a", "e", "i", "o", "u",
+                       // "y",
+                       // "ay", "uy", "oy", "ei", "ie",
+                       "au", "ou",
+                       //"ai", "aa",
+                       "ee", "oo",
+                       //"eu","eo","ui","uo",
+                       "a", "e", "i", "o", "u"]
     }
 
     func setSpecialCharsAsString(_ specialString: String?) {
@@ -216,17 +245,12 @@ class PasswordHero : NSObject {
         return password
     }
 
-    // I don't like this, I think we can do it a lot better
     func createSyllable() -> String {
         let firstConsonantProbability = CGFloat.random(in: 0..<1)
         let lastConsonantProbability = CGFloat.random(in: 0..<1)
         var syllable = ""
         if firstConsonantProbability < 0.75 || !self.lastSyllableHasLastConsonant {
-            self.lastSyllableHasFirstConsonant = true // bug in the original?
-            // actually the whole thing looks like a bug; this value is never tested, only set, pointlessly
             syllable += self.firstConsonants.randomElement() ?? ""
-        } else {
-            self.lastSyllableHasFirstConsonant = false
         }
         syllable += self.vowels.randomElement() ?? ""
         if lastConsonantProbability < 0.5 {
@@ -240,6 +264,7 @@ class PasswordHero : NSObject {
     }
 
     func createSpeakablePasswordCandidate() -> String {
+        self.lastSyllableHasLastConsonant = false
         var speakablePassword = ""
         func addNumberOrSpecial() {
             let numberOrSpecialProbability = CGFloat.random(in:0..<1)
