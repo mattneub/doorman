@@ -9,9 +9,6 @@ import AppKit
 
 @objc class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
     @IBOutlet var doormanWindow: NSWindow!
-    // @IBOutlet var NSDrawer* favoritePasswordsDrawer;
-    // @IBOutlet var NSTableView* favoritesTableView;
-
     @IBOutlet weak var hasLowerCaseCheck : NSButton!
     @IBOutlet weak var hasNumbersCheck : NSButton!
     @IBOutlet weak var hasSpecialCharsCheck : NSButton!
@@ -30,9 +27,7 @@ import AppKit
 
     @IBOutlet weak var passwordStrengthLevelIndicator : NSLevelIndicator!
 
-    @IBOutlet weak var favoritesOverlayImage : NSImageView!
     @IBOutlet weak var doormanMenu : NSMenu!
-    @IBOutlet weak var updateMenuItem : NSMenuItem!
 
     @IBAction func createPasswordClicked(_ sender: AnyObject) {
         self.copyButton.isEnabled = true
@@ -65,10 +60,6 @@ import AppKit
         }  else {
             self.strengthDescription.stringValue = NSLocalizedString("Safe for confidential data", comment:"Safe for confidential data")
         }
-
-//        self.favoriteButton.image = NSImage(named:"star_white")
-//        self.favoritesTableView.deselectAll(self)
-
     }
     @IBAction func optionCheckBoxClicked(_ sender: AnyObject) {
         self.passwordHero.hasNumbers = self.hasNumbersCheck.state == .on
@@ -133,7 +124,6 @@ import AppKit
 
     override func awakeFromNib() {
         self.doormanWindow.center()
-        self.doormanMenu.removeItem(self.updateMenuItem)
     }
 
     func applicationDidFinishLaunching(_ notification: Notification) {
