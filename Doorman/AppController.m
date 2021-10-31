@@ -5,8 +5,10 @@
  */
 
 #import "AppController.h"
-#import "PasswordHero.h"
+// #import "PasswordHero.h"
 #import "Doorman-Swift.h"
+
+PasswordHero* passwordHero;
 
 @implementation AppController
 

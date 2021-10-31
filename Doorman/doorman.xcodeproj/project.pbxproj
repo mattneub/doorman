@@ -14,11 +14,10 @@
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 		959D9B26158E4A4300BDCD89 /* star_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 959D9B25158E4A4300BDCD89 /* star_white.png */; };
 		959D9B28158E4B7700BDCD89 /* star_yellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 959D9B27158E4B7700BDCD89 /* star_yellow.png */; };
-		95D8742911D2509200F2B6A0 /* PasswordHero.m in Sources */ = {isa = PBXBuildFile; fileRef = 95D8742811D2509200F2B6A0 /* PasswordHero.m */; };
 		95FFCB6E15D56FCB0019E369 /* favorites_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 95FFCB6A15D56FCB0019E369 /* favorites_overlay.png */; };
 		95FFCB6F15D56FCB0019E369 /* favorites_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 95FFCB6C15D56FCB0019E369 /* favorites_overlay@2x.png */; };
 		95FFCB7F15D576830019E369 /* app_icon.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 95FFCB7E15D576830019E369 /* app_icon.iconset */; };
-		9E54FEB1272D982F00DE2A7C /* RandomBetween.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E54FEB0272D982F00DE2A7C /* RandomBetween.swift */; };
+		9E488E0F272EE3CF00BC6D21 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E488E0E272EE3CF00BC6D21 /* Utilities.swift */; };
 		9E54FEB3272D9AC400DE2A7C /* PasswordHero.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E54FEB2272D9AC400DE2A7C /* PasswordHero.swift */; };
 		A792C8E20FF23C480062F525 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = A792C8E10FF23C480062F525 /* AppController.m */; };
 /* End PBXBuildFile section */
@@ -51,6 +50,7 @@
 		95FFCB7A15D570100019E369 /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = de.lproj/favorites_overlay.png; sourceTree = "<group>"; };
 		95FFCB7B15D570100019E369 /* de */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = de; path = "de.lproj/favorites_overlay@2x.png"; sourceTree = "<group>"; };
 		95FFCB7E15D576830019E369 /* app_icon.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; path = app_icon.iconset; sourceTree = "<group>"; };
+		9E488E0E272EE3CF00BC6D21 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		9E54FEAF272D982F00DE2A7C /* Doorman-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Doorman-Bridging-Header.h"; sourceTree = "<group>"; };
 		9E54FEB0272D982F00DE2A7C /* RandomBetween.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomBetween.swift; sourceTree = "<group>"; };
 		9E54FEB2272D9AC400DE2A7C /* PasswordHero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordHero.swift; sourceTree = "<group>"; };
@@ -83,6 +83,7 @@
 				A792C8EB0FF241BF0062F525 /* DMRandom.m */,
 				9E54FEB0272D982F00DE2A7C /* RandomBetween.swift */,
 				9E54FEB2272D9AC400DE2A7C /* PasswordHero.swift */,
+				9E488E0E272EE3CF00BC6D21 /* Utilities.swift */,
 				9E54FEAF272D982F00DE2A7C /* Doorman-Bridging-Header.h */,
 			);
 			name = Classes;
@@ -239,11 +240,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E488E0F272EE3CF00BC6D21 /* Utilities.swift in Sources */,
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				9E54FEB3272D9AC400DE2A7C /* PasswordHero.swift in Sources */,
 				A792C8E20FF23C480062F525 /* AppController.m in Sources */,
-				95D8742911D2509200F2B6A0 /* PasswordHero.m in Sources */,
-				9E54FEB1272D982F00DE2A7C /* RandomBetween.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

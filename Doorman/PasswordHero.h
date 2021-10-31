@@ -23,8 +23,7 @@
 
 	
 	NSArray* allSpecialChars;
-	NSDictionary* upperForLowerCaseDict;
-    
+
 	NSArray* specialChars;
     // DMRandom* random;
     
@@ -46,9 +45,9 @@
 @property (nonatomic, strong) NSArray<NSString*>* vowels;
 @property (nonatomic, strong) NSArray<NSString*>* lastConsonants;
 
--(NSString* _Nonnull) createSpeakablePasswordCandidate;
-
 @property (strong, nonatomic) NSDictionary<NSString*, NSString*>* leetDict;
+@property (strong, nonatomic) NSDictionary<NSString*, NSString*>* upperForLowerCaseDict;
+
 
 @property (assign) BOOL lastSyllableHasFirstConsonant;
 @property (assign) BOOL lastSyllableHasLastConsonant;

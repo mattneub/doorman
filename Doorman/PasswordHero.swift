@@ -8,18 +8,98 @@
 import Foundation
 
 
-extension PasswordHero {
+@objcMembers
+class PasswordHero : NSObject {
 
-    @objc
+    var passwordLength: Int
+    var hasLowerCase, hasNumbers, hasSpecialChars, hasUpperCase, isSpeakable : Bool
+    var lastSyllableHasFirstConsonant, lastSyllableHasLastConsonant : Bool
+    var passwordsPerSecond : CGFloat
+    var specialChars: [String] {
+        didSet {
+            if self.specialChars.count == 0 {
+                self.specialChars = self.allSpecialChars
+            }
+        }
+    }
+    var allSpecialChars, lowerCaseLetters, upperCaseLetters, numbers, firstConsonants, lastConsonants, vowels : [String]
+    var leetDict : [String:String] = {
+        var d = [String:String]()
+        let vals : [String] = ["3","0","!","4","5"]
+        let keys : [String] = ["e","o","i","a","s"]
+        zip(vals,keys).forEach { d[$0.1] = $0.0 }
+        return d
+    }()
+    lazy var upperForLowerCaseDict : [String:String] = {
+        var d = [String:String]()
+        zip(self.upperCaseLetters, self.lowerCaseLetters).forEach { d[$0.1] = $0.0 }
+        return d
+    }()
+    var lastSyllableLength: Int
+
+    override init() {
+        self.passwordsPerSecond = 2.0 * pow(10, 9)
+        print("passwordManager > init > pps:", self.passwordsPerSecond)
+        self.lowerCaseLetters = ["a", "b","c", "d",
+                             "e", "f","g", "h","i", "j","k", "l",
+                             "m", "n","o", "p","q", "r","s", "t",
+                             "u", "v","w", "x","y", "z"]
+        self.upperCaseLetters = ["A", "B","C", "D",
+                             "E", "F","G", "H","I", "J","K", "L","M", "N",
+                             "O", "P","Q", "R","S", "T","U", "V",
+                             "W", "X", "Y","Z"]
+        self.numbers = ["1", "2","3", "4","5", "6",
+                    "7", "8","9", "0"]
+        self.allSpecialChars = ["!", "§", "$", "%",
+                            "&", "/", "(", ")", "[", "]", "{", "}","<", ">",
+                            "?", "#", "",  "=", "-", "_", ".", ",", "+", "*", ":"]
+        self.specialChars = self.allSpecialChars
+        self.passwordLength = 12
+        self.hasLowerCase = true
+        self.hasNumbers = true
+        self.hasSpecialChars = false
+        self.hasUpperCase = true
+        self.isSpeakable = false
+        self.lastSyllableHasLastConsonant = true
+        self.lastSyllableHasFirstConsonant = true
+        self.lastSyllableLength = 0
+        self.firstConsonants = ["b", "c", "d", "f",
+                            "g","h","j", "k", "l", "m", "n","o","p",
+                            "qu", "r","s", "t","v", "w", "x","y", "z","ch",
+                            "b", "c", "d", "f",
+                            "g","h","j", "k", "l", "m", "n","o","p",
+                            "qu", "r","s", "t","v", "w", "x", "z","ch",
+                            "sh", "sc","sp", "st","ph","squ", "bh","dh",
+                            "gh","kh","th", "wh","h", "bl","br",
+                            "cl", "cr","dr", "tl","tr", "gl", "gr","kl",
+                            "kr", "pr","sl", "tr","tl","vr","vl",
+                            "wr", "wl","xl", "chr","chl","shr", "shl","scl",
+                            "scr", "spl","spr", "str","stl","phl","phr",
+                            "thr", "thl"]
+        self.lastConsonants = ["b", "c", "d", "f",
+                           "g","h", "k", "l", "m", "n","o","p",
+                           "qu", "r","s", "t","v", "w", "x", "z",
+                           "b", "c", "d", "f",
+                           "g","h","j", "k", "l", "m", "n","o","p",
+                           "qu", "r","s", "t","v", "w", "x", "z","ch",
+                           "ch","sh","th", "sp", "st",
+                           "ll","rr","mm", "nn", "tt", "ss", "gh","ck"]
+        self.vowels = ["a", "e", "i", "o", "u",
+                   "a", "e", "i", "o", "u", "y",
+                   "ay", "uy", "oy", "ei", "ie", "au", "ou","ai", "aa", "ee", "oo",
+                   "eu","eo","ui","uo","a", "e", "i", "o", "u"]
+
+
+    }
+
     func setSpecialCharsAsString(_ specialString: String?) {
         if specialString?.isEmpty ?? true {
-            self.specialChars = nil
+            self.specialChars = []
         } else {
             self.specialChars = Array(specialString!).map {String($0)}
         }
     }
 
-    @objc
     func specialCharsAsString() -> String {
         return self.specialChars.joined()
     }
@@ -65,7 +145,6 @@ extension PasswordHero {
     }
     */
 
-    @objc
     func checkPasswordBeforeOut(_ password: String) -> Bool {
         var existsLetter = !self.hasLowerCase
         var existsUpperLetter = !self.hasUpperCase
@@ -125,7 +204,6 @@ extension PasswordHero {
     }
      */
 
-    @objc
     func calculatePasswordStrength() -> Int {
         var possibleSymbols : CGFloat = 0
         if self.hasNumbers {
@@ -148,7 +226,12 @@ extension PasswordHero {
             passwordStrength -= 2
         }
 
-        // NSLog("Time to brute force: %.1f days @ 10^%ld passwords/sec; possible combinations 10^%ld; strength %ld", secondsToCrack/(3600*24), (NSInteger)(log10(passwordsPerSecond)), (NSInteger)log10(possibleCombinations), passwordStrength)
+        do {
+            let days = Int(secondsToCrack/(3600.0*24.0))
+            let log1 = Int(log10(passwordsPerSecond))
+            let log2 = Int(log10(possibleCombinations))
+            print("Time to brute force: \(days) days @ \(log1) passwords/sec; possible combinations \(log2); strength \(passwordStrength)")
+        }
 
         return Int(passwordStrength)
     }
@@ -178,7 +261,7 @@ extension PasswordHero {
         return password;
     }
      */
-    @objc
+
     func createPassword() -> String {
         var password = self.createPasswordCandidate()
         for _ in 0..<20 {
@@ -190,7 +273,7 @@ extension PasswordHero {
         }
         return password
     }
-    @objc
+
     func createSpeakablePassword() -> String {
         var password = self.createSpeakablePasswordCandidate()
         for _ in 0..<20 {
@@ -221,7 +304,7 @@ extension PasswordHero {
     }
 */
     // unused, it appears
-    @objc
+
     func applyLeetSpeak(_ aString: String) -> String {
         Array(aString).map(String.init).map { self.leetDict[$0] ?? $0 }.joined()
     }
@@ -256,7 +339,7 @@ extension PasswordHero {
         return [NSString stringWithString: password];
     }
      */
-    @objc
+
     func createPasswordCandidate() -> String {
         var chars = [String]()
         if self.hasLowerCase {
@@ -275,6 +358,7 @@ extension PasswordHero {
         for _ in 0..<self.passwordLength {
             password.append(chars.randomElement() ?? "")
         }
+        print("create password", password)
         return password
     }
 
@@ -308,7 +392,9 @@ extension PasswordHero {
         return syllable;
     }
      */
-    @objc func createSyllable() -> String {
+
+    // I don't like this, I think we can do it a lot better
+    func createSyllable() -> String {
         let firstConsonantProbability = CGFloat.random(in: 0..<1)
         let lastConsonantProbability = CGFloat.random(in: 0..<1)
         var syllable = ""
@@ -330,5 +416,47 @@ extension PasswordHero {
         return syllable
     }
 
+    func createSpeakablePasswordCandidate() -> String {
+        var speakablePassword = ""
+        func addNumberOrSpecial() {
+            let numberOrSpecialProbability = CGFloat.random(in:0..<1)
+            if self.hasNumbers && numberOrSpecialProbability > 0.6 {
+                speakablePassword += self.numbers.randomElement() ?? ""
+            } else if self.hasSpecialChars && numberOrSpecialProbability < 0.3 {
+                speakablePassword += self.specialChars.randomElement() ?? ""
+            }
+        }
+        // can start with special character or digit too
+        // NOTE to self: I don't like that rule and might change it
+        addNumberOrSpecial()
+
+        // add syllables, each possibly followed by special character or digit
+        while speakablePassword.count < self.passwordLength {
+            speakablePassword += self.createSyllable()
+            addNumberOrSpecial()
+        }
+
+        // if too long, recurse and try again
+        if speakablePassword.count > self.passwordLength {
+            speakablePassword = self.createSpeakablePasswordCandidate()
+        }
+
+        if self.hasLowerCase && self.hasUpperCase {
+            for i in 0..<passwordLength {
+                let range = speakablePassword.range(i,1)
+                let charAtI = speakablePassword[range]
+                if let caseReplacement = self.upperForLowerCaseDict[String(charAtI)] {
+                    let replaceProbability = CGFloat.random(in:0..<1)
+                    if replaceProbability > 0.8 {
+                        speakablePassword.replaceSubrange(range, with: caseReplacement)
+                    }
+                }
+            }
+        } else if self.hasUpperCase && !self.hasLowerCase {
+            speakablePassword = speakablePassword.uppercased()
+        }
+
+        return speakablePassword
+    }
 
 }

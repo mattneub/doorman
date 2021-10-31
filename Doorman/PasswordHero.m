@@ -34,7 +34,7 @@
                              @"E", @"F",@"G", @"H",@"I", @"J",@"K", @"L",@"M", @"N",
                              @"O", @"P",@"Q", @"R",@"S", @"T",@"U", @"V",
                              @"W", @"X", @"Y",@"Z"];
-        upperForLowerCaseDict = [NSDictionary dictionaryWithObjects:self.upperCaseLetters forKeys:self.lowerCaseLetters];
+        self.upperForLowerCaseDict = [NSDictionary dictionaryWithObjects:self.upperCaseLetters forKeys:self.lowerCaseLetters];
         self.numbers = @[@"1", @"2",@"3", @"4",@"5", @"6",
 					@"7", @"8",@"9", @"0"];
 		allSpecialChars = @[@"!", @"§", @"$", @"%",
@@ -59,32 +59,7 @@
         self.lastSyllableLength = 0;
         
         
-        self.firstConsonants = @[@"b", @"c", @"d", @"f",
-							@"g",@"h",@"j", @"k", @"l", @"m", @"n",@"o",@"p",
-							@"qu", @"r",@"s", @"t",@"v", @"w", @"x",@"y", @"z",@"ch",
-							@"b", @"c", @"d", @"f",
-							@"g",@"h",@"j", @"k", @"l", @"m", @"n",@"o",@"p",
-							@"qu", @"r",@"s", @"t",@"v", @"w", @"x", @"z",@"ch",
-							@"sh", @"sc",@"sp", @"st",@"ph",@"squ", @"bh",@"dh",
-							@"gh",@"kh",@"th", @"wh",@"h", @"bl",@"br",
-							@"cl", @"cr",@"dr", @"tl",@"tr", @"gl", @"gr",@"kl",
-							@"kr", @"pr",@"sl", @"tr",@"tl",@"vr",@"vl",
-							@"wr", @"wl",@"xl", @"chr",@"chl",@"shr", @"shl",@"scl",
-							@"scr", @"spl",@"spr", @"str",@"stl",@"phl",@"phr",
-							@"thr", @"thl"];
-        self.lastConsonants = @[@"b", @"c", @"d", @"f",
-						   @"g",@"h", @"k", @"l", @"m", @"n",@"o",@"p",
-						   @"qu", @"r",@"s", @"t",@"v", @"w", @"x", @"z",
-						   @"b", @"c", @"d", @"f",
-						   @"g",@"h",@"j", @"k", @"l", @"m", @"n",@"o",@"p",
-						   @"qu", @"r",@"s", @"t",@"v", @"w", @"x", @"z",@"ch",
-						   @"ch",@"sh",@"th", @"sp", @"st",
-						   @"ll",@"rr",@"mm", @"nn", @"tt", @"ss", @"gh",@"ck"];
-        self.vowels = @[@"a", @"e", @"i", @"o", @"u",
-				   @"a", @"e", @"i", @"o", @"u", @"y",
-				   @"ay", @"uy", @"oy", @"ei", @"ie", @"au", @"ou",@"ai", @"aa", @"ee", @"oo",
-				   @"eu",@"eo",@"ui",@"uo",@"a", @"e", @"i", @"o", @"u"];
-        
+
         
         
         self.randomNumberGenerator = [[DMRandom alloc] init];
@@ -102,6 +77,7 @@
  @discussion erzeugt so lange silben bis die länge stimmt. zwischen den silben werden sonderzeichen eingefügt
  @updated 2009-08-08 gaby & anna
  */
+/*
 -(NSString* _Nonnull) createSpeakablePasswordCandidate{
     NSMutableString* speakablePassword = [NSMutableString stringWithCapacity:passwordLength];
     
@@ -153,6 +129,7 @@
     
     return speakablePassword;
 }
+ */
 
 -(void) setSpecialChars:(NSArray *)theCharsArray {
     if (theCharsArray == nil || [theCharsArray count] == 0) {

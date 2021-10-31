@@ -7,7 +7,6 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class PasswordHero;
 
 
 @interface AppController : NSObject {
@@ -39,10 +38,9 @@
     IBOutlet NSMenu* doormanMenu;
     IBOutlet NSMenuItem* updateMenuItem;
 
-	
-	PasswordHero* passwordHero;
-    
-    
+
+
+
     BOOL showFavoritesOverlay;
 }
 
