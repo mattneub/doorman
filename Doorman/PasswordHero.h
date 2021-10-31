@@ -20,18 +20,11 @@
 	BOOL hasUpperCase;
 	BOOL isSpeakable;
     
-    BOOL lastSyllableHasFirstConsonant;
-    BOOL lastSyllableHasLastConsonant;
-    NSInteger lastSyllableLength;
 
 	
 	NSArray* allSpecialChars;
-	NSDictionary* leetDict;
 	NSDictionary* upperForLowerCaseDict;
     
-    NSArray* firstConsonants;
-    NSArray* vowels;
-    NSArray* lastConsonants;    
 	NSArray* specialChars;
     // DMRandom* random;
     
@@ -49,15 +42,17 @@
 @property (nonatomic, strong) NSArray<NSString*>* lowerCaseLetters;
 @property (nonatomic, strong) NSArray<NSString*>* upperCaseLetters;
 @property (nonatomic, strong) NSArray<NSString*>* numbers;
+@property (nonatomic, strong) NSArray<NSString*>* firstConsonants;
+@property (nonatomic, strong) NSArray<NSString*>* vowels;
+@property (nonatomic, strong) NSArray<NSString*>* lastConsonants;
 
--(NSString*) createPassword;
--(NSString*) createPasswordCandidate;
+-(NSString* _Nonnull) createSpeakablePasswordCandidate;
 
--(NSString*) createSpeakablePassword;
--(NSString*) createSpeakablePasswordCandidate;
+@property (strong, nonatomic) NSDictionary<NSString*, NSString*>* leetDict;
 
--(NSString*) createSyllable;
--(NSString*) applyLeetSpeak:(NSString*) aString;
+@property (assign) BOOL lastSyllableHasFirstConsonant;
+@property (assign) BOOL lastSyllableHasLastConsonant;
+@property (assign) NSInteger lastSyllableLength;
 
 @end
 

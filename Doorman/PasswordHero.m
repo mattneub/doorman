@@ -40,7 +40,7 @@
 		allSpecialChars = @[@"!", @"§", @"$", @"%",
                             @"&", @"/", @"(", @")", @"[", @"]", @"{", @"}",@"<", @">",
                             @"?", @"#", @"@",  @"=", @"-", @"_", @".", @",", @"+", @"*", @":"];
-        leetDict = [NSDictionary dictionaryWithObjects:
+        self.leetDict = [NSDictionary dictionaryWithObjects:
                     @[@"3",@"0",@"!",@"4",@"5"] 
                                                forKeys:
                     @[@"e",@"o",@"i",@"a",@"s"]];
@@ -54,12 +54,12 @@
         hasSpecialChars = NO;
         hasUpperCase = NO;
         isSpeakable = YES;
-        lastSyllableHasLastConsonant = NO;
-        lastSyllableHasFirstConsonant = NO;
-        lastSyllableLength = 0;
+        self.lastSyllableHasLastConsonant = NO;
+        self.lastSyllableHasFirstConsonant = NO;
+        self.lastSyllableLength = 0;
         
         
-        firstConsonants = @[@"b", @"c", @"d", @"f",
+        self.firstConsonants = @[@"b", @"c", @"d", @"f",
 							@"g",@"h",@"j", @"k", @"l", @"m", @"n",@"o",@"p",
 							@"qu", @"r",@"s", @"t",@"v", @"w", @"x",@"y", @"z",@"ch",
 							@"b", @"c", @"d", @"f",
@@ -72,7 +72,7 @@
 							@"wr", @"wl",@"xl", @"chr",@"chl",@"shr", @"shl",@"scl",
 							@"scr", @"spl",@"spr", @"str",@"stl",@"phl",@"phr",
 							@"thr", @"thl"];
-        lastConsonants = @[@"b", @"c", @"d", @"f",
+        self.lastConsonants = @[@"b", @"c", @"d", @"f",
 						   @"g",@"h", @"k", @"l", @"m", @"n",@"o",@"p",
 						   @"qu", @"r",@"s", @"t",@"v", @"w", @"x", @"z",
 						   @"b", @"c", @"d", @"f",
@@ -80,7 +80,7 @@
 						   @"qu", @"r",@"s", @"t",@"v", @"w", @"x", @"z",@"ch",
 						   @"ch",@"sh",@"th", @"sp", @"st",
 						   @"ll",@"rr",@"mm", @"nn", @"tt", @"ss", @"gh",@"ck"];
-        vowels = @[@"a", @"e", @"i", @"o", @"u",
+        self.vowels = @[@"a", @"e", @"i", @"o", @"u",
 				   @"a", @"e", @"i", @"o", @"u", @"y",
 				   @"ay", @"uy", @"oy", @"ei", @"ie", @"au", @"ou",@"ai", @"aa", @"ee", @"oo",
 				   @"eu",@"eo",@"ui",@"uo",@"a", @"e", @"i", @"o", @"u"];
@@ -94,58 +94,7 @@
 
 
 
--(NSString*) createPassword {
-    NSString* password = [self createPasswordCandidate];
-    for (NSInteger i = 0; i < 20; i++) {
-        if (NO ==[self checkPasswordBeforeOut:password]){
-            password = [self createPasswordCandidate];
-        } else {
-            break;
-        }
-    }
-    return password;
-}
 
--(NSString*) createSpeakablePassword {
-    NSString* password = [self createSpeakablePasswordCandidate];
-    for (NSInteger i = 0; i < 20; i++) {
-        if (NO == [self checkPasswordBeforeOut:password]){
-            password = [self createSpeakablePasswordCandidate];
-        } else {
-            break;
-        }
-    }
-    return password;
-}
-
-/*!
- @abstract erzeugt ein zufälliges passwort gemäss den optionen.
- @updated 2009-08-08 gaby & anna
- */
--(NSString*) createPasswordCandidate{
-    NSMutableArray* characters = [NSMutableArray arrayWithCapacity:80];
-    if (hasLowerCase){
-        [characters addObjectsFromArray:self.lowerCaseLetters];
-    }
-    if (hasNumbers){
-        [characters addObjectsFromArray:self.numbers];
-    }            
-    if (hasSpecialChars){
-        [characters addObjectsFromArray:specialChars];   
-    }            
-    if (hasUpperCase){
-        [characters addObjectsFromArray:self.upperCaseLetters];
-    }
-    NSMutableString* password = [NSMutableString stringWithString:@""];
-    
-	for (NSInteger i = 0; i < passwordLength; i++) {
-		NSInteger r = [self.randomNumberGenerator randomIntBetween:0 and:[characters count]-1];
-		[password appendString:characters[r]];
-	}	
-    
-    //NSLog(@"createPassword: %@", password);
-    return [NSString stringWithString: password];
-}
 
 
 /*!
@@ -153,7 +102,7 @@
  @discussion erzeugt so lange silben bis die länge stimmt. zwischen den silben werden sonderzeichen eingefügt
  @updated 2009-08-08 gaby & anna
  */
--(NSString*) createSpeakablePasswordCandidate{
+-(NSString* _Nonnull) createSpeakablePasswordCandidate{
     NSMutableString* speakablePassword = [NSMutableString stringWithCapacity:passwordLength];
     
     //am anfang kann auch sonderzeichen oder zahl stehen
@@ -204,52 +153,6 @@
     
     return speakablePassword;
 }
-
-/*!
- @abstract Erzeugt eine zufällige silbe zufälliger länge.
- @updated 2009-08-08 gaby & anna
- */
--(NSString*) createSyllable{
-    CGFloat firstConsonantProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
-    CGFloat lastConsonantProbability = [self.randomNumberGenerator randomFloatBetween:0 and:1];
-    NSMutableString* syllable = [NSMutableString stringWithCapacity:7];
-    if (firstConsonantProbability < 0.75 || !lastSyllableHasLastConsonant) {
-        lastSyllableHasLastConsonant = YES;
-        NSInteger randomFirstConsonant = [self.randomNumberGenerator randomIntBetween:0 and:[firstConsonants count]-1];
-        [syllable appendString:firstConsonants[randomFirstConsonant]];
-    } else {
-        lastSyllableHasFirstConsonant = NO;
-    }
-    NSInteger randomVowel = [self.randomNumberGenerator randomIntBetween:0 and:[vowels count]-1];
-    [syllable appendString:vowels[randomVowel]];
-    if (lastConsonantProbability < 0.5) {
-        lastSyllableHasLastConsonant = YES;
-        NSInteger randomLastConsonant = [self.randomNumberGenerator randomIntBetween:0 and:[lastConsonants count]-1];
-        [syllable appendString:lastConsonants[randomLastConsonant]];
-    } else {
-        lastSyllableHasLastConsonant = NO;
-    }
-    
-    lastSyllableLength = [syllable length];
-    return syllable;
-}
-
-/*!
- @abstract Ersetzt im übergeben String buchstaben durch zahlen gemäss leetspeak.
- @updated 2009-08-08 gaby & anna
- */
--(NSString*) applyLeetSpeak:(NSString*) aString {
-    NSMutableString* newPassword = [NSMutableString stringWithString:aString];
-    for(NSInteger i = 0; i < [aString length]; i++){
-        NSRange r = NSMakeRange(i, 1);
-        NSString* leetChar = leetDict[[aString substringWithRange:r]];
-        if (leetChar != nil) {
-            [newPassword replaceCharactersInRange:r withString:leetChar];
-        }
-    }
-    return [NSString stringWithString:newPassword];
-}
-
 
 -(void) setSpecialChars:(NSArray *)theCharsArray {
     if (theCharsArray == nil || [theCharsArray count] == 0) {
