@@ -160,7 +160,7 @@ DQ
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="385">
-                                    <rect key="frame" x="197" y="46" width="142" height="18"/>
+                                    <rect key="frame" x="198" y="47" width="142" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Upper Case Letters" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="386">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -171,7 +171,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="381">
-                                    <rect key="frame" x="355" y="46" width="80" height="18"/>
+                                    <rect key="frame" x="355" y="47" width="80" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Numbers" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="382">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -182,7 +182,7 @@ DQ
                                     </connections>
                                 </button>
                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="375">
-                                    <rect key="frame" x="43" y="15" width="142" height="18"/>
+                                    <rect key="frame" x="43" y="13" width="142" height="18"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <buttonCell key="cell" type="check" title="Special Characters:" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="376">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -213,7 +213,7 @@ DQ
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="387">
-                                    <rect key="frame" x="30" y="75" width="252" height="17"/>
+                                    <rect key="frame" x="29" y="78" width="252" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password components" id="388">
                                         <font key="font" metaFont="systemBold"/>
@@ -225,7 +225,7 @@ DQ
                         </view>
                     </box>
                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="389">
-                        <rect key="frame" x="179" y="125" width="19" height="27"/>
+                        <rect key="frame" x="177" y="125" width="19" height="27"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <stepperCell key="cell" continuous="YES" state="on" alignment="left" minValue="4" maxValue="32" doubleValue="7" id="390"/>
                         <connections>
@@ -233,7 +233,7 @@ DQ
                         </connections>
                     </stepper>
                     <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="391">
-                        <rect key="frame" x="149" y="128" width="25" height="22"/>
+                        <rect key="frame" x="148" y="128" width="25" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" borderStyle="bezel" title="8" drawsBackground="YES" id="392">
                             <font key="font" metaFont="system"/>
@@ -254,7 +254,7 @@ DQ
                         </textFieldCell>
                     </textField>
                     <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="377">
-                        <rect key="frame" x="30" y="104" width="149" height="18"/>
+                        <rect key="frame" x="29" y="100" width="149" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Speakable Password" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="378">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -297,7 +297,7 @@ DQ
                                     </levelIndicatorCell>
                                 </levelIndicator>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="449">
-                                    <rect key="frame" x="231" y="28" width="198" height="14"/>
+                                    <rect key="frame" x="231" y="29" width="198" height="14"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" controlSize="small" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="left" title="OK for non-senstive data" id="450">
                                         <font key="font" metaFont="smallSystem"/>
@@ -317,7 +317,7 @@ DQ
                                     </connections>
                                 </button>
                                 <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="400">
-                                    <rect key="frame" x="25" y="56" width="68" height="17"/>
+                                    <rect key="frame" x="25" y="54" width="68" height="17"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Password:" id="401">
                                         <font key="font" metaFont="systemBold"/>
