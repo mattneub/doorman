@@ -29,30 +29,30 @@ final class PasswordHero : NSObject {
         zip(vals,keys).forEach { d[$0.1] = $0.0 }
         return d
     }()
-    lazy var upperForLowerCaseDict : [String:String] = {
-        var d = [String:String]()
-        zip(self.upperCaseLetters, self.lowerCaseLetters).forEach { d[$0.1] = $0.0 }
-        return d
-    }()
     var lastSyllableLength: Int
 
     override init() {
         self.passwordsPerSecond = 2.0 * pow(10, 9)
         print("passwordManager > init > pps:", self.passwordsPerSecond)
         self.lowerCaseLetters = ["a", "b","c", "d",
-                                 "e", "f", "g", "h", "i", "j", "k", "l",
+                                 "e", "f", "g", "h", "i", "j", "k",
+                                 // "l",
                                  "m", "n", "o", "p", "q", "r", "s", "t",
                                  "u", "v", "w", "x", "y", "z"]
         self.upperCaseLetters = ["A", "B", "C", "D",
-                                 "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
-                                 "O", "P", "Q", "R", "S", "T", "U", "V",
+                                 "E", "F", "G", "H",
+                                 // "I",
+                                 "J", "K", "L", "M", "N",
+                                 // "O",
+                                 "P", "Q", "R", "S", "T", "U", "V",
                                  "W", "X", "Y", "Z"]
         self.numbers = ["1", "2", "3", "4", "5", "6",
-                        "7", "8", "9", "0"]
+                        "7", "8", "9",
+                        //"0"
+        ]
         self.allSpecialChars = ["!", "§", "$", "%",
                                 "&", "/", "(", ")", "[", "]", "{", "}","<", ">",
                                 "?", "#",
-                                //"",
                                 "=", "-", "_", ".", ",", "+", "*", ":"]
         self.specialChars = self.allSpecialChars
         self.passwordLength = 12
@@ -71,15 +71,25 @@ final class PasswordHero : NSObject {
                                 "qu", "r", "s", "t", "v", "w", "x", "z", "ch",
                                 "sh", "sc", "sp", "st", "ph", "squ",
                                 // "bh","dh","gh","kh",
-                                "th", "wh","h", "bl", "br",
-                                "cl", "cr", "dr",
+                                "th", "wh","h",
+                                //"bl",
+                                "br",
+                                //"cl",
+                                "cr", "dr",
                                 //"tl",
-                                "tr", "gl", "gr", "kl",
+                                "tr",
+                                //"gl",
+                                "gr",
+                                //"kl",
                                 //"kr",
-                                "pr", "sl", "tr",
+                                "pr",
+                                //"sl",
+                                "tr",
                                 // "tl","vr","vl",
                                 // "wr", "wl","xl", "chr","chl","shr", "shl","scl",
-                                "scr", "spl", "spr", "str",
+                                "scr",
+                                //"spl",
+                                "spr", "str",
                                 //"stl","phl","phr",
                                 "thr",
                                 //"thl",
@@ -113,8 +123,10 @@ final class PasswordHero : NSObject {
                        "a", "e", "i", "o", "u",
                        // "y",
                        // "ay", "uy", "oy", "ei", "ie",
-                       "au", "ou",
-                       //"ai", "aa",
+                       "au", "aw",
+                       //"ou",
+                       "ai",
+                       //"aa",
                        "ee", "oo",
                        //"eu","eo","ui","uo",
                        "a", "e", "i", "o", "u"]
@@ -165,7 +177,7 @@ final class PasswordHero : NSObject {
     func calculatePasswordStrength() -> Int {
         var possibleSymbols : CGFloat = 0
         if self.hasNumbers {
-            possibleSymbols += 10
+            possibleSymbols += CGFloat(self.numbers.count)
         }
         if self.hasSpecialChars {
             possibleSymbols += CGFloat(self.specialChars.count)
@@ -296,11 +308,9 @@ final class PasswordHero : NSObject {
             for i in 0..<passwordLength {
                 let range = speakablePassword.range(i,1)
                 let charAtI = speakablePassword[range]
-                if let caseReplacement = self.upperForLowerCaseDict[String(charAtI)] {
-                    let replaceProbability = CGFloat.random(in:0..<1)
-                    if replaceProbability > 0.8 {
-                        speakablePassword.replaceSubrange(range, with: caseReplacement)
-                    }
+                let replaceProbability = CGFloat.random(in:0..<1)
+                if replaceProbability > 0.8 && charAtI != "i" && charAtI != "o" { // don't use I or O
+                    speakablePassword.replaceSubrange(range, with: charAtI.uppercased())
                 }
             }
         } else if self.hasUpperCase && !self.hasLowerCase {
