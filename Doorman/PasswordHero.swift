@@ -238,6 +238,12 @@ final class PasswordHero : NSObject {
             chars.append(contentsOf: self.upperCaseLetters)
         }
         var password = ""
+        // new rule: must start with letter
+        if self.hasLowerCase {
+            password.append(self.lowerCaseLetters.randomElement() ?? "")
+        } else if self.hasUpperCase {
+            password.append(self.upperCaseLetters.randomElement() ?? "")
+        }
         for _ in 0..<self.passwordLength {
             password.append(chars.randomElement() ?? "")
         }
@@ -274,9 +280,6 @@ final class PasswordHero : NSObject {
                 speakablePassword += self.specialChars.randomElement() ?? ""
             }
         }
-        // can start with special character or digit too
-        // NOTE to self: I don't like that rule and might change it
-        addNumberOrSpecial()
 
         // add syllables, each possibly followed by special character or digit
         while speakablePassword.count < self.passwordLength {
