@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0E92BFBF102349C200D2B589 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = 0E92BFBB102349C200D2B589 /* Credits.html */; };
-		0E92BFC510234A1C00D2B589 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0E92BFC310234A1C00D2B589 /* Localizable.strings */; };
 		1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD58140DA1D0A300B32029 /* MainMenu.xib */; };
 		95FFCB7F15D576830019E369 /* app_icon.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 95FFCB7E15D576830019E369 /* app_icon.iconset */; };
 		9E488E0F272EE3CF00BC6D21 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E488E0E272EE3CF00BC6D21 /* Utilities.swift */; };
@@ -17,8 +16,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E92BFBC102349C200D2B589 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = English; path = English.lproj/Credits.html; sourceTree = "<group>"; };
-		0E92BFC410234A1C00D2B589 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		959D9B24158E240F00BDCD89 /* Doorman.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Doorman.entitlements; sourceTree = "<group>"; };
 		95D8742711D2509200F2B6A0 /* PasswordHero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordHero.h; sourceTree = "<group>"; };
@@ -28,6 +25,7 @@
 		9E488E10272EFB5700BC6D21 /* AppController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppController.swift; sourceTree = "<group>"; };
 		9E488E12272F103600BC6D21 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		9E54FEB2272D9AC400DE2A7C /* PasswordHero.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordHero.swift; sourceTree = "<group>"; };
+		9E79704D2730206D00D3D71C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Credits.html; sourceTree = "<group>"; };
 		9E9E5F26272F1A07000A6EF1 /* Doorman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doorman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A792C8E00FF23C480062F525 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
 		A792C8E10FF23C480062F525 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
@@ -73,7 +71,6 @@
 			children = (
 				95FFCB7E15D576830019E369 /* app_icon.iconset */,
 				8D1107310486CEB800E47090 /* Info.plist */,
-				0E92BFC310234A1C00D2B589 /* Localizable.strings */,
 				0E92BFBB102349C200D2B589 /* Credits.html */,
 				1DDD58140DA1D0A300B32029 /* MainMenu.xib */,
 			);
@@ -160,7 +157,6 @@
 			files = (
 				1DDD58160DA1D0A300B32029 /* MainMenu.xib in Resources */,
 				0E92BFBF102349C200D2B589 /* Credits.html in Resources */,
-				0E92BFC510234A1C00D2B589 /* Localizable.strings in Resources */,
 				95FFCB7F15D576830019E369 /* app_icon.iconset in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -184,17 +180,9 @@
 		0E92BFBB102349C200D2B589 /* Credits.html */ = {
 			isa = PBXVariantGroup;
 			children = (
-				0E92BFBC102349C200D2B589 /* English */,
+				9E79704D2730206D00D3D71C /* Base */,
 			);
 			name = Credits.html;
-			sourceTree = "<group>";
-		};
-		0E92BFC310234A1C00D2B589 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E92BFC410234A1C00D2B589 /* English */,
-			);
-			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		1DDD58140DA1D0A300B32029 /* MainMenu.xib */ = {

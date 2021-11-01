@@ -61,13 +61,13 @@ final class AppController : NSObject, NSApplicationDelegate, NSWindowDelegate {
         self.strengthDescription.stringValue = {
             switch strength {
             case Int.min..<4:
-                return NSLocalizedString("Unsecure", comment:"Unsecure")
+                return "Insecure"
             case 4..<6:
-                return NSLocalizedString("OK for web accounts", comment:"OK for web accounts")
+                return "OK for non-sensitive data"
             case 6..<9:
-                return NSLocalizedString("Save for private data", comment:"Save for private data")
+                return "Safe for private data"
             default:
-                return NSLocalizedString("Save for confidential data", comment:"Save for confidential data")
+                return "Safe for confidential data"
             }
         }()
     }
