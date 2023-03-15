@@ -197,7 +197,7 @@ final class PasswordHero : NSObject {
         }
 
         do {
-            let days = Int(secondsToCrack/(3600.0*24.0))
+            let days = Double(secondsToCrack/(3600.0*24.0))
             let log1 = Int(log10(passwordsPerSecond))
             let log2 = Int(log10(possibleCombinations))
             print("Time to brute force: \(days) days @ \(log1) passwords/sec; possible combinations \(log2); strength \(passwordStrength)")
